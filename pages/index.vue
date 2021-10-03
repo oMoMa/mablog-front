@@ -59,23 +59,32 @@
 
 <script>
 export default {
-  asyncData({ context, $axios }) {
-    return
-    axios
-      .get('/api/posts')
+  async asyncData({ $axios, context }) {
+    const res = await $axios
+      .$get('/posts')
       .catch((error) => {
-        context.error(error)
+        console.log(error)
         return Promise.reject()
       })
-      .then((response) => {
-        return { loadedPost: response.data }
+      .then((res) => {
+        let posts = res.data
+        //console.log(posts)
+
+        return { allPosts: posts }
       })
   },
-  data: () => ({
-    links: ['Dashboard', 'Messages', 'Profile', 'Updates'],
-  }),
+
+  data() {
+    return {
+      links: ['Dashboard', 'Messages', 'Profile', 'Updates'],
+      //allPosts: [],
+    }
+  },
+  methods: {
+    //async loadAllPosts() {},
+  },
   mounted() {
-    console.log(loadedPost)
+    console.log(this.allPosts)
   },
 }
 </script>
