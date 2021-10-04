@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const state = () => {
   return {
     posts: [],
@@ -13,12 +15,9 @@ export const mutations = {
 export const actions = {
   nuxtServerInit(vuexContext, context) {
     return axios
-      .get('/posts')
+      .get('http://127.0.0.1:8000/api/posts')
       .then((res) => {
-        const postsArray = []
-        for (const key in res.data) {
-          postsArray.push(res.data[key])
-        }
+        const postsArray = res.data.data
         vuexContext.commit('setPosts', postsArray)
       })
       .catch((e) => context.error(e))

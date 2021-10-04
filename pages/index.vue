@@ -48,7 +48,7 @@
 
           <v-col>
             <v-sheet min-height="70vh" rounded="lg">
-              <!--  -->
+              <PostList />
             </v-sheet>
           </v-col>
         </v-row>
@@ -58,7 +58,11 @@
 </template>
 
 <script>
+import PostList from '@/components/Posts/PostList'
 export default {
+  components: {
+    PostList,
+  },
   async asyncData({ $axios, context }) {
     const res = await $axios
       .$get('/posts')
@@ -68,8 +72,6 @@ export default {
       })
       .then((res) => {
         let posts = res.data
-        //console.log(posts)
-
         return { allPosts: posts }
       })
   },
@@ -84,7 +86,7 @@ export default {
     //async loadAllPosts() {},
   },
   mounted() {
-    console.log(this.allPosts)
+    //console.log(this.allPosts)
   },
 }
 </script>
