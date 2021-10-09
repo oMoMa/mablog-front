@@ -1,10 +1,9 @@
 <template>
   <section>
-    <PostCard
+    <PostPreviewCard
       v-for="post in posts"
       :key="post.id"
       :id="parseInt(post.id)"
-      :is-admin="isAdmin"
       :title="post.attributes.title"
       :body="post.attributes.body"
       :thumbnail="'http://127.0.0.1:8000' + post.attributes.thumb_image"
@@ -13,17 +12,11 @@
 </template>
 
 <script>
-import PostCard from '@/components/Posts/PostCard'
-
 export default {
-  components: {
-    PostCard,
-  },
-  props: {
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
+  data() {
+    return {
+      showDialog: false,
+    }
   },
   computed: {
     posts() {
@@ -34,3 +27,9 @@ export default {
   mounted() {},
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+}
+</style>

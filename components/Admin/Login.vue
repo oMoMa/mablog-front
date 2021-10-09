@@ -1,34 +1,34 @@
 <template>
-  <v-app>
-    <v-card width="400" class="mx-auto mt-15">
-      <v-card-title class="pb-5">
-        <h1>Login</h1>
-      </v-card-title>
-      <v-card-text>
-        <v-form>
+    <v-card width="400" class="ma-auto">
+      <v-form @submit.prevent="userLogin">
+        <v-card-title class="pb-5">
+          <h1>Login</h1>
+        </v-card-title>
+        <v-card-text>
           <v-text-field
-            v-model="login.usernameInput"
+            v-model="login.username"
             label="Username"
             prepend-icon="mdi-account-circle"
           />
           <v-text-field
             :type="showPassword ? 'text' : 'password'"
-            v-model="login.passwordInput"
+            v-model="login.password"
             label="Password"
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
           />
-        </v-form>
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-btn color="success">Register</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn color="info" @click="userLogin">Login</v-btn>
-      </v-card-actions>
+        </v-card-text>
+
+        <v-card-actions>
+          <nuxt-link to="/register">
+            <v-btn class="px-2 py-2" color="success">REGISTER</v-btn>
+          </nuxt-link>
+          <v-spacer></v-spacer>
+          <v-btn color="info" type="submit">LOGIN</v-btn>
+        </v-card-actions>
+      </v-form>
     </v-card>
-  </v-app>
 </template>
 
 <script>
@@ -36,8 +36,9 @@ export default {
   data() {
     return {
       login: {
-        usernameInput: '',
-        passwordInput: '',
+        username: '',
+        password: '',
+        device_name: 'Dummy Device',
       },
       showPassword: false,
     }
@@ -50,7 +51,14 @@ export default {
       } catch (err) {
         console.log(err)
       }
+      console.log(this.$auth.user)
     },
   },
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+}
+</style>

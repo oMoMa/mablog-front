@@ -10,6 +10,9 @@ export const mutations = {
   setPosts(state, posts) {
     state.posts = posts
   },
+  addPost(state, post) {
+    state.posts.unshift(post)
+  },
 }
 
 export const actions = {
@@ -24,6 +27,9 @@ export const actions = {
   },
   setPosts(vuexContext, posts) {
     vuexContext.commit('setPosts', posts)
+  },
+  addPost(vuexContext, post) {
+    vuexContext.commit('addPost', post)
   },
 }
 

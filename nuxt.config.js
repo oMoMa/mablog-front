@@ -24,7 +24,9 @@ export default {
   plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: {
+    dirs: ['~/components', '~/components/Navigation', '~/components/Posts'],
+  },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -41,23 +43,36 @@ export default {
 
   // Auth Module configuration
   auth: {
-    strategies:{
-      local:{
-
-      }
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: 'user',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/api/sanctum/token', method: 'post' },
+          logout: { url: '/api/sanctum/destroy/token', method: 'delete' },
+          user: { url: '/api/user', method: 'get' },
+        },
+      },
     },
-    redirect:{
-      login: "/login",
+    redirect: {
+      login: '/login',
       logout: '/',
       callback: '/login',
-      home: "/"
-    }
-
+      home: '/',
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://127.0.0.1:8000/api',
+    baseURL: 'http://127.0.0.1:8000',
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
