@@ -25,6 +25,7 @@
         <v-text-field
           :type="showConfirmPassword ? 'text' : 'password'"
           :rules="passwordConfirm"
+          v-model="signup.password_confirmation"
           label="Confirm Password"
           :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showConfirmPassword = !showConfirmPassword"
@@ -52,6 +53,7 @@ export default {
         phone: '',
         email: '',
         password: '',
+        password_confirmation: '',
       },
       showPassword: false,
       showConfirmPassword: false,
@@ -70,9 +72,7 @@ export default {
   methods: {
     async userSignup() {
       try {
-        let response = await this.$axios.post('/api/user/register', {
-          data: this.signup,
-        })
+        let response = await this.$axios.post('/api/user/register', this.signup)
         console.log(response)
       } catch (err) {
         console.log(err)

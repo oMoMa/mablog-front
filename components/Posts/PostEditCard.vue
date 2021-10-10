@@ -73,13 +73,21 @@ export default {
   },
   methods: {
     async uploadPost() {
+      let formData = new FormData()
+      formData.append('cover', this.data.cover)
+      formData.append('title', this.data.title)
+      formData.append('body', this.data.body)
+      formData.append('published', this.data.published)
+
       if (this.valid) {
         try {
-          const response = await this.$axios.post('/api/posts', {
-            data: this.data,
+          const response = await this.$axios.post('/api/posts', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
           })
           console.log(response)
-          this.$store.dispatch('addPost',response);
+          this.$store.dispatch('addPost', response)
         } catch (error) {
           console.error(error)
         }
