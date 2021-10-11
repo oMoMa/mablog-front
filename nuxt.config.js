@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - wordpress-front',
-    title: 'wordpress-front',
+    titleTemplate: '%s - mablog-front',
+    title: 'mablog-front',
     htmlAttrs: {
       lang: 'en',
     },
