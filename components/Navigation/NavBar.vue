@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="white" flat>
+  <v-app-bar color="white" flat>
     <nuxt-link to="/">
       <v-app-bar-title> Mablog Front</v-app-bar-title>
     </nuxt-link>

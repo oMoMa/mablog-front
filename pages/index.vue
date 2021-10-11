@@ -17,6 +17,9 @@
         </v-col>
 
         <v-col>
+          <v-btn to="/posts/new" class="mx-auto" elevation="2" icon
+            ><v-icon>mdi-plus</v-icon></v-btn
+          >
           <PostList @showPostDialog="dialogHandler" />
         </v-col>
       </v-row>

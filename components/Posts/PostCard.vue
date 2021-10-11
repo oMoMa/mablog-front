@@ -23,6 +23,13 @@
           elevation="false"
           text
           v-if="$auth.loggedIn && ownerID == $auth.user.id"
+          ><v-icon class="mr-1">mdi-pencil</v-icon>Edit</v-btn
+        >
+        <v-spacer></v-spacer>
+        <v-btn
+          elevation="false"
+          text
+          v-if="$auth.loggedIn && ownerID == $auth.user.id"
           class="mr-10"
           @click="deleteDialog = true"
           ><v-icon class="mr-1">mdi-delete</v-icon>Delete</v-btn
