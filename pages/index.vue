@@ -2,10 +2,12 @@
   <v-main class="grey lighten-3">
     <v-dialog width="500px" v-model="dialog" scrollable>
       <PostCard
-        :id="clickedPost.attributes.id"
+        :id="clickedPost.id"
         :title="clickedPost.attributes.title"
         :body="clickedPost.attributes.body"
         :thumbnail="thumbnail"
+        :ownerID="clickedPost.relationships.owner.data.id"
+        @closeDialog="dialog = false"
       />
     </v-dialog>
     <v-container>
@@ -32,6 +34,13 @@ export default {
           body: '',
           thumb_image: '',
         },
+        relationships: {
+          owner: {
+            data: {
+              id: '',
+            },
+          },
+        },
       },
 
       dialog: false,
@@ -46,7 +55,6 @@ export default {
   },
   methods: {
     dialogHandler(post) {
-      console.log(post)
       this.dialog = true
       this.clickedPost = post
     },

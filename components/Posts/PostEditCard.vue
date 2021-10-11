@@ -86,7 +86,6 @@ export default {
               'Content-Type': 'multipart/form-data',
             },
           })
-          console.log(response)
           this.$store.dispatch('addPost', response)
         } catch (error) {
           console.error(error)

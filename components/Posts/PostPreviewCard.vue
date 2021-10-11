@@ -18,7 +18,7 @@ export default {
       type: Boolean,
     },
     id: {
-      type: Number,
+      type: String,
     },
     title: {
       type: String,

@@ -3,7 +3,7 @@
     <PostPreviewCard
       v-for="post in posts"
       :key="post.id"
-      :id="parseInt(post.id)"
+      :id="post.id"
       :title="post.attributes.title"
       :body="post.attributes.body"
       :thumbnail="'http://127.0.0.1:8000' + post.attributes.thumb_image"

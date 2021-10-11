@@ -73,11 +73,9 @@ export default {
     async userSignup() {
       try {
         let response = await this.$axios.post('/api/user/register', this.signup)
-        console.log(response)
       } catch (err) {
-        console.log(err)
+        console.error(err)
       }
-      console.log(this.$auth.user)
     },
   },
 }

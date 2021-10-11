@@ -5,6 +5,7 @@
       :title="post.attributes.title"
       :body="post.attributes.body"
       :thumbnail="'http://127.0.0.1:8000' + post.attributes.thumb_image"
+      :ownerID="parseInt(post.relationships.owner.data.id)"
     />
   </v-main>
 </template>
@@ -15,7 +16,6 @@ export default {
     return context.app.$axios
       .$get('/api/posts/' + context.params.id)
       .then((res) => {
-        console.log(res.data)
         return {
           post: res.data,
         }

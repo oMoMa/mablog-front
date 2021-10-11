@@ -34,12 +34,9 @@ export default {
     async userLogout() {
       try {
         let response = await this.$auth.logout('local')
-        console.log(response)
       } catch (err) {
-        console.log(err)
+        console.error(err)
       }
-      console.log(this.$auth.loggedIn)
-      console.log(this.$auth.user)
     },
   },
 }

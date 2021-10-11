@@ -13,6 +13,13 @@ export const mutations = {
   addPost(state, post) {
     state.posts.unshift(post)
   },
+  deletePost(state, postId) {
+    for (let i = 0; i < state.posts.length; i++) {
+      if (state.posts[i].id == postId) {
+        state.posts.splice(i, 1)
+      }
+    }
+  },
 }
 
 export const actions = {
@@ -30,6 +37,9 @@ export const actions = {
   },
   addPost(vuexContext, post) {
     vuexContext.commit('addPost', post)
+  },
+  deletePost(vuexContext, id) {
+    vuexContext.commit('deletePost', id)
   },
 }
 
