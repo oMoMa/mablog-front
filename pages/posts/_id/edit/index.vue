@@ -12,19 +12,17 @@
 <script>
 export default {
   middleware: ['auth', 'check-owner'],
-  fetch() {
-    // const res = $axios.get(`/api/posts/${params.id}`).catch((e) => {
-    //   return Promise.reject()
-    // })
-    // const post = res.data.data
-    // return { post }
-    this.$axios
-      .get(`/api/posts/${this.$route.params.id}`)
-      .then((res) => {
-        console.log(res)
-        this.loadedPost = res.data.data
-      })
-      .catch((e) => console.error(e))
+  async fetch() {
+    const res = await this.$axios.get(`/api/posts/${this.$route.params.id}`)
+
+    this.loadedPost = res.data.data
+    // this.$axios
+    //   .get(`/api/posts/${this.$route.params.id}`)
+    //   .then((res) => {
+    //     console.log(res.data.data)
+    //     this.loadedPost = res.data.data
+    //   })
+    //   .catch((e) => console.error(e))
   },
   data() {
     return {

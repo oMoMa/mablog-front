@@ -7,7 +7,7 @@
     >
       <v-card-text>
         <v-text-field
-          v-model="data.title"
+          v-model="titleProp"
           :rules="titleRules"
           :counter="50"
           placeholder="Title"
@@ -16,7 +16,7 @@
           required
         ></v-text-field>
         <v-textarea
-          v-model="data.body"
+          v-model="bodyProp"
           :rules="bodyRules"
           placeholder="Body"
           name="postBody"
@@ -28,7 +28,7 @@
           accept="image/*"
           label="Cover"
           required
-          v-model="data.cover"
+          v-model="thumbnailProp"
           :rules="fileRules"
         ></v-file-input>
       </v-card-text>
@@ -61,12 +61,12 @@ export default {
   },
   data() {
     return {
-      data: {
-        title: this.titleProp,
-        body: this.bodyProp,
-        published: '1',
-        cover: this.thumbnailProp,
-      },
+      // data: {
+      //   title: this.titleProp,
+      //   body: this.bodyProp,
+      //   published: '1',
+      //   cover: this.thumbnailProp,
+      // },
 
       valid: true,
       titleRules: [
