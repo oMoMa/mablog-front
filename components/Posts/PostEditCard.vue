@@ -1,6 +1,10 @@
 <template>
   <v-card width="500px" class="mx-auto my-10">
-    <v-form v-model="valid" @submit.prevent="uploadPost">
+    <v-form
+      v-model="valid"
+      @submit.prevent="uploadPost(editing)"
+      lazy-validation
+    >
       <v-card-text>
         <v-text-field
           v-model="data.title"
@@ -20,18 +24,19 @@
           label="Body"
           auto-grow
         ></v-textarea>
-        Cover:
         <v-file-input
-          :rules="fileRules"
           accept="image/*"
-          label="File input"
+          label="Cover"
           required
           v-model="data.cover"
+          :rules="fileRules"
         ></v-file-input>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn type="submit" color="info">Post</v-btn>
+        <v-btn type="submit" color="info">{{
+          editing ? 'Update' : 'Post'
+        }}</v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
@@ -40,26 +45,30 @@
 <script>
 export default {
   props: {
-    title: {
+    titleProp: {
       type: String,
     },
-    body: {
+    bodyProp: {
       type: String,
     },
-    thumbnail: {
+    thumbnailProp: {
       type: String,
+    },
+    editing: {
+      type: Boolean,
+      required: true,
     },
   },
   data() {
     return {
       data: {
-        title: '',
-        body: '',
+        title: this.titleProp,
+        body: this.bodyProp,
         published: '1',
-        cover: '',
+        cover: this.thumbnailProp,
       },
 
-      valid: false,
+      valid: true,
       titleRules: [
         (v) => !!v || 'Title is required',
         (v) => v.length <= 50 || 'Title must be less than 50 characters',
@@ -72,7 +81,7 @@ export default {
     }
   },
   methods: {
-    async uploadPost() {
+    async uploadPost({ redirect }, editing) {
       let formData = new FormData()
       formData.append('cover', this.data.cover)
       formData.append('title', this.data.title)
@@ -81,17 +90,34 @@ export default {
 
       if (this.valid) {
         try {
-          const response = await this.$axios.post('/api/posts', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          })
-          this.$store.dispatch('addPost', response)
+          if (editing) {
+            const response = await this.$axios.put(
+              '/api/posts/' + this.$route.params.id,
+              formData,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              }
+            )
+            this.$store.dispatch('editPost', response.data)
+          } else {
+            const response = await this.$axios.post('/api/posts', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            })
+            this.$store.dispatch('addPost', response.data)
+          }
         } catch (error) {
           console.error(error)
         }
+        redirect('/')
       }
     },
+  },
+  created() {
+    console.log(this.data)
   },
 }
 </script>

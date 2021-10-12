@@ -1,6 +1,6 @@
 <template>
   <v-main class="grey lighten-3">
-    <PostEditCard id="" title="" body="" thumbnail="" />
+    <PostEditCard titleProp="" bodyProp="" thumbnailProp="" />
   </v-main>
 </template>
 

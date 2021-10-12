@@ -23,6 +23,7 @@
           elevation="false"
           text
           v-if="$auth.loggedIn && ownerID == $auth.user.id"
+          :to="editLink"
           ><v-icon class="mr-1">mdi-pencil</v-icon>Edit</v-btn
         >
         <v-spacer></v-spacer>
@@ -73,6 +74,11 @@ export default {
       favorited: false,
       deleteDialog: false,
     }
+  },
+  computed: {
+    editLink() {
+      return '/posts/' + this.id + '/edit'
+    },
   },
   methods: {
     async toggleFavorite() {
