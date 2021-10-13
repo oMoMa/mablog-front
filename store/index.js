@@ -13,7 +13,7 @@ export const mutations = {
   addPost(state, post) {
     state.posts.unshift(post)
   },
-  editpost(state, post) {
+  editPost(state, post) {
     for (let i = 0; i < state.posts.length; i++) {
       if (state.posts[i].id == post.id) {
         state.posts[i] = post

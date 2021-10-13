@@ -2,12 +2,16 @@
   <v-card width="500px" class="mx-auto my-10">
     <v-form
       v-model="valid"
-      @submit.prevent="uploadPost(editing)"
+      @submit.prevent="
+        if (valid) {
+          $emit('uploadPost', loadedPost)
+        }
+      "
       lazy-validation
     >
       <v-card-text>
         <v-text-field
-          v-model="titleProp"
+          v-model="title"
           :rules="titleRules"
           :counter="50"
           placeholder="Title"
@@ -16,7 +20,7 @@
           required
         ></v-text-field>
         <v-textarea
-          v-model="bodyProp"
+          v-model="body"
           :rules="bodyRules"
           placeholder="Body"
           name="postBody"
@@ -28,7 +32,7 @@
           accept="image/*"
           label="Cover"
           required
-          v-model="thumbnailProp"
+          v-model="thumbnail"
           :rules="fileRules"
         ></v-file-input>
       </v-card-text>
@@ -45,14 +49,9 @@
 <script>
 export default {
   props: {
-    titleProp: {
-      type: String,
-    },
-    bodyProp: {
-      type: String,
-    },
-    thumbnailProp: {
-      type: String,
+    loadedPost: {
+      type: Object,
+      required: true,
     },
     editing: {
       type: Boolean,
@@ -61,13 +60,6 @@ export default {
   },
   data() {
     return {
-      // data: {
-      //   title: this.titleProp,
-      //   body: this.bodyProp,
-      //   published: '1',
-      //   cover: this.thumbnailProp,
-      // },
-
       valid: true,
       titleRules: [
         (v) => !!v || 'Title is required',
@@ -80,44 +72,33 @@ export default {
       fileRules: [(v) => !!v || !v],
     }
   },
-  methods: {
-    async uploadPost({ redirect }, editing) {
-      let formData = new FormData()
-      formData.append('cover', this.data.cover)
-      formData.append('title', this.data.title)
-      formData.append('body', this.data.body)
-      formData.append('published', this.data.published)
-
-      if (this.valid) {
-        try {
-          if (editing) {
-            const response = await this.$axios.put(
-              '/api/posts/' + this.$route.params.id,
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
-              }
-            )
-            this.$store.dispatch('editPost', response.data)
-          } else {
-            const response = await this.$axios.post('/api/posts', formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            })
-            this.$store.dispatch('addPost', response.data)
-          }
-        } catch (error) {
-          console.error(error)
-        }
-        redirect('/')
-      }
+  computed: {
+    title: {
+      get() {
+        return this.loadedPost.attributes.title
+      },
+      set(value) {
+        this.loadedPost.attributes.title = value
+      },
     },
-  },
-  created() {
-    console.log(this.data)
+    body: {
+      get() {
+        return this.loadedPost.attributes.body
+      },
+      set(value) {
+        this.loadedPost.attributes.body = value
+      },
+    },
+    thumbnail: {
+      get() {
+        if (!!this.loadedPost.attributes.thumb_image)
+          return this.loadedPost.attributes.thumb_image
+        else return ''
+      },
+      set(value) {
+        this.loadedPost.attributes.thumb_image = value
+      },
+    },
   },
 }
 </script>
