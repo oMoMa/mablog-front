@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       clickedPost: {
+        id: '',
         attributes: {
           title: '',
           body: '',
@@ -65,6 +66,7 @@ export default {
     dialogHandler(post) {
       this.dialog = true
       this.clickedPost = post
+      this.$store.dispatch('addRecentPost', this.clickedPost.id)
     },
   },
 }

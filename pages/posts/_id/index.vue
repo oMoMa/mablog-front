@@ -1,6 +1,7 @@
 <template>
   <v-main class="grey lighten-3">
     <PostCard
+      class="post"
       :id="parseInt(post.id)"
       :title="post.attributes.title"
       :body="post.attributes.body"
@@ -25,4 +26,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.post {
+  margin: 20px auto;
+}
+</style>

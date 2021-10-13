@@ -118,16 +118,18 @@ export default {
     },
   },
   mounted() {
-    this.$axios
-      .get('/api/posts/' + this.id + '/favorites')
-      .then((res) => {
-        if ((res.code = '200')) {
-          if (res.data == '1') {
-            this.favorited = true
-          } else this.favorited = false
-        }
-      })
-      .catch((e) => console.error(e))
+    if (this.$auth.loggedIn) {
+      this.$axios
+        .get('/api/posts/' + this.id + '/favorites')
+        .then((res) => {
+          if ((res.code = '200')) {
+            if (res.data == '1') {
+              this.favorited = true
+            } else this.favorited = false
+          }
+        })
+        .catch((e) => console.error(e))
+    }
   },
 }
 </script>

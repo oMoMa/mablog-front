@@ -11,6 +11,8 @@
     >
       <v-card-text>
         <v-text-field
+          autofocus
+          clearable
           v-model="title"
           :rules="titleRules"
           :counter="50"
@@ -18,8 +20,10 @@
           label="Title"
           outlined
           required
+          @focus="$event.target.select()"
         ></v-text-field>
         <v-textarea
+          clearable
           v-model="body"
           :rules="bodyRules"
           placeholder="Body"
@@ -27,8 +31,10 @@
           outlined
           label="Body"
           auto-grow
+          @focus="$event.target.select()"
         ></v-textarea>
         <v-file-input
+          v-if="!editing"
           accept="image/*"
           label="Cover"
           required

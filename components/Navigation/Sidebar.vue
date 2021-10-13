@@ -3,17 +3,14 @@
     <v-list color="transparent">
       <v-subheader>Recently Visited</v-subheader>
 
-      <v-list-item v-for="post in posts" :key="post" link>
+      <v-list-item
+        v-for="post in recentPosts"
+        :key="post.id"
+        :to="post.link"
+        link
+      >
         <v-list-item-content>
           <v-list-item-title text-truncate>{{ post.title }} </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider class="my-2"></v-divider>
-
-      <v-list-item link color="grey lighten-4">
-        <v-list-item-content>
-          <v-list-item-title> Refresh </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -21,13 +18,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
       posts: [],
     }
   },
+  computed: {
+    ...mapGetters(['recentPosts']),
+  },
 }
 </script>
-
-<style></style>
