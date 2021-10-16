@@ -75,7 +75,10 @@ export default {
         (v) => !!v || 'Body is required',
         (v) => v.length >= 5 || 'Body must have at least 5 characters',
       ],
-      fileRules: [(v) => !!v || !v],
+      fileRules: [
+        (v) => !!v || 'File is required',
+        (v) => (v && v.size > 0) || 'File is required',
+      ],
     }
   },
   computed: {
@@ -99,7 +102,7 @@ export default {
       get() {
         if (!!this.loadedPost.attributes.thumb_image)
           return this.loadedPost.attributes.thumb_image
-        else return ''
+        else return []
       },
       set(value) {
         this.loadedPost.attributes.thumb_image = value
