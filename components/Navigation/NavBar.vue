@@ -1,7 +1,7 @@
 <template>
   <v-app-bar color="white" flat>
     <nuxt-link to="/">
-      <v-app-bar-title> Mablog Front</v-app-bar-title>
+      <v-app-bar-title class="text--no-wrap"> Mablog Front</v-app-bar-title>
     </nuxt-link>
     <v-spacer></v-spacer>
 
@@ -48,5 +48,9 @@ a {
 }
 #avatar {
   margin-left: 20px;
+}
+
+.v-app-bar-title__content {
+  width: fit-content !important;
 }
 </style>
