@@ -1,37 +1,52 @@
 <template>
   <v-card width="500px" class="mx-auto my-10">
-    <v-form v-model="valid" @submit.prevent="uploadPost">
+    <v-form
+      v-model="valid"
+      @submit.prevent="
+        if (valid) {
+          $emit('uploadPost', loadedPost)
+        }
+      "
+      lazy-validation
+    >
       <v-card-text>
         <v-text-field
-          v-model="data.title"
+          autofocus
+          clearable
+          v-model="title"
           :rules="titleRules"
           :counter="50"
           placeholder="Title"
           label="Title"
           outlined
           required
+          @focus="$event.target.select()"
         ></v-text-field>
         <v-textarea
-          v-model="data.body"
+          clearable
+          v-model="body"
           :rules="bodyRules"
           placeholder="Body"
           name="postBody"
           outlined
           label="Body"
           auto-grow
+          @focus="$event.target.select()"
         ></v-textarea>
-        Cover:
         <v-file-input
-          :rules="fileRules"
+          v-if="!editing"
           accept="image/*"
-          label="File input"
+          label="Cover"
           required
-          v-model="data.cover"
+          v-model="thumbnail"
+          :rules="fileRules"
         ></v-file-input>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn type="submit" color="info">Post</v-btn>
+        <v-btn type="submit" color="info">{{
+          editing ? 'Update' : 'Post'
+        }}</v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
@@ -40,26 +55,18 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String,
+    loadedPost: {
+      type: Object,
+      required: true,
     },
-    body: {
-      type: String,
-    },
-    thumbnail: {
-      type: String,
+    editing: {
+      type: Boolean,
+      required: true,
     },
   },
   data() {
     return {
-      data: {
-        title: '',
-        body: '',
-        published: '1',
-        cover: '',
-      },
-
-      valid: false,
+      valid: true,
       titleRules: [
         (v) => !!v || 'Title is required',
         (v) => v.length <= 50 || 'Title must be less than 50 characters',
@@ -71,26 +78,32 @@ export default {
       fileRules: [(v) => !!v || !v],
     }
   },
-  methods: {
-    async uploadPost() {
-      let formData = new FormData()
-      formData.append('cover', this.data.cover)
-      formData.append('title', this.data.title)
-      formData.append('body', this.data.body)
-      formData.append('published', this.data.published)
-
-      if (this.valid) {
-        try {
-          const response = await this.$axios.post('/api/posts', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          })
-          this.$store.dispatch('addPost', response)
-        } catch (error) {
-          console.error(error)
-        }
-      }
+  computed: {
+    title: {
+      get() {
+        return this.loadedPost.attributes.title
+      },
+      set(value) {
+        this.loadedPost.attributes.title = value
+      },
+    },
+    body: {
+      get() {
+        return this.loadedPost.attributes.body
+      },
+      set(value) {
+        this.loadedPost.attributes.body = value
+      },
+    },
+    thumbnail: {
+      get() {
+        if (!!this.loadedPost.attributes.thumb_image)
+          return this.loadedPost.attributes.thumb_image
+        else return ''
+      },
+      set(value) {
+        this.loadedPost.attributes.thumb_image = value
+      },
     },
   },
 }

@@ -23,6 +23,7 @@
           elevation="false"
           text
           v-if="$auth.loggedIn && ownerID == $auth.user.id"
+          :to="editLink"
           ><v-icon class="mr-1">mdi-pencil</v-icon>Edit</v-btn
         >
         <v-spacer></v-spacer>
@@ -74,6 +75,11 @@ export default {
       deleteDialog: false,
     }
   },
+  computed: {
+    editLink() {
+      return '/posts/' + this.id + '/edit'
+    },
+  },
   methods: {
     async toggleFavorite() {
       const url = '/api/posts/' + this.id + '/favorites'
@@ -112,16 +118,18 @@ export default {
     },
   },
   mounted() {
-    this.$axios
-      .get('/api/posts/' + this.id + '/favorites')
-      .then((res) => {
-        if ((res.code = '200')) {
-          if (res.data == '1') {
-            this.favorited = true
-          } else this.favorited = false
-        }
-      })
-      .catch((e) => console.error(e))
+    if (this.$auth.loggedIn) {
+      this.$axios
+        .get('/api/posts/' + this.id + '/favorites')
+        .then((res) => {
+          if ((res.code = '200')) {
+            if (res.data == '1') {
+              this.favorited = true
+            } else this.favorited = false
+          }
+        })
+        .catch((e) => console.error(e))
+    }
   },
 }
 </script>

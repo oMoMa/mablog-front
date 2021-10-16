@@ -17,7 +17,12 @@
         </v-col>
 
         <v-col>
-          <v-btn to="/posts/new" class="mx-auto" elevation="2" icon
+          <v-btn
+            v-if="$auth.loggedIn"
+            to="/posts/new"
+            class="mx-auto"
+            elevation="2"
+            icon
             ><v-icon>mdi-plus</v-icon></v-btn
           >
           <PostList @showPostDialog="dialogHandler" />
@@ -32,6 +37,7 @@ export default {
   data() {
     return {
       clickedPost: {
+        id: '',
         attributes: {
           title: '',
           body: '',
@@ -60,6 +66,7 @@ export default {
     dialogHandler(post) {
       this.dialog = true
       this.clickedPost = post
+      this.$store.dispatch('addRecentPost', this.clickedPost.id)
     },
   },
 }

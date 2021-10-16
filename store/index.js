@@ -3,6 +3,7 @@ import axios from 'axios'
 export const state = () => {
   return {
     posts: [],
+    recentPosts: [],
   }
 }
 
@@ -13,10 +14,46 @@ export const mutations = {
   addPost(state, post) {
     state.posts.unshift(post)
   },
+  editPost(state, post) {
+    for (let i = 0; i < state.posts.length; i++) {
+      if (state.posts[i].id == post.id) {
+        state.posts[i] = post
+      }
+    }
+  },
   deletePost(state, postId) {
     for (let i = 0; i < state.posts.length; i++) {
       if (state.posts[i].id == postId) {
         state.posts.splice(i, 1)
+      }
+    }
+  },
+  addRecentPost(state, { id, index }) {
+    for (let i = 0; i < state.posts.length; i++) {
+      if (state.posts[i].id == id) {
+        if (index == 0) {
+          if (state.recentPosts.length > 0) {
+            state.recentPosts.unshift({
+              title: state.posts[i].attributes.title,
+              id: id,
+              link: `/posts/${id}`,
+            })
+          } else {
+            state.recentPosts.push({
+              title: state.posts[i].attributes.title,
+              id: id,
+              link: `/posts/${id}`,
+            })
+          }
+        }
+        if (state.recentPosts.length > 0) {
+          state.recentPosts.splice(index, 1)
+          state.recentPosts.unshift({
+            title: state.posts[i].attributes.title,
+            id: id,
+            link: `/posts/${id}`,
+          })
+        }
       }
     }
   },
@@ -32,19 +69,39 @@ export const actions = {
       })
       .catch((e) => context.error(e))
   },
-  setPosts(vuexContext, posts) {
-    vuexContext.commit('setPosts', posts)
+  setPosts(commit, posts) {
+    commit('setPosts', posts)
   },
-  addPost(vuexContext, post) {
-    vuexContext.commit('addPost', post)
+  addPost(commit, post) {
+    commit('addPost', post)
   },
-  deletePost(vuexContext, id) {
-    vuexContext.commit('deletePost', id)
+  editPost(commit, post) {
+    commit('editPost', post)
+  },
+  deletePost(commit, id) {
+    commit('deletePost', id)
+  },
+  addRecentPost({ commit, state }, id) {
+    for (let i = 0; i < state.recentPosts.length; i++) {
+      if (state.recentPosts[i].id == id) {
+        commit('addRecentPost', { id, index: i })
+        return
+      }
+      // no duplicate found and array is full 5
+      if (i == 4) {
+        commit('addRecentPost', { id, index: 4 })
+      }
+    }
+    // No duplicate found and array size is less than 5
+    commit('addRecentPost', { id, index: 0 })
   },
 }
 
 export const getters = {
   posts(state) {
     return state.posts
+  },
+  recentPosts(state) {
+    return state.recentPosts
   },
 }
