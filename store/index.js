@@ -4,12 +4,16 @@ export const state = () => {
   return {
     posts: [],
     recentPosts: [],
+    pagination: {},
   }
 }
 
 export const mutations = {
   setPosts(state, posts) {
     state.posts = posts
+  },
+  setPagination(state, pagination) {
+    state.pagination = pagination
   },
   addPost(state, post) {
     state.posts.unshift(post)
@@ -63,14 +67,32 @@ export const mutations = {
 }
 
 export const actions = {
-  nuxtServerInit(vuexContext, context) {
-    return axios
-      .get('http://127.0.0.1:8000/api/posts')
+  async nuxtServerInit({ dispatch }) {
+    await dispatch('updatePage', 1)
+  },
+  setPagination({ commit }, pagination) {
+    commit('setPagination', pagination)
+  },
+  updatePage({ commit }, nextPage) {
+    const PER_PAGE = 5
+    axios
+      .get(
+        `http://127.0.0.1:8000/api/posts?per_page=${PER_PAGE}&page=${nextPage}`,
+        {
+          headers: {
+            'User-Agent': 'PostmanRuntime/7.28.4',
+            Accept: 'application/json',
+          },
+        }
+      )
       .then((res) => {
-        const postsArray = res.data.data
-        vuexContext.commit('setPosts', postsArray)
+        commit('setPosts', res.data.data)
+        commit('setPagination', res.data.meta)
       })
-      .catch((e) => context.error(e))
+      .catch((e) => console.error(e))
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
   },
   setPosts({ commit }, posts) {
     commit('setPosts', posts)
@@ -102,5 +124,8 @@ export const getters = {
   },
   recentPosts(state) {
     return state.recentPosts
+  },
+  pagination(state) {
+    return state.pagination
   },
 }

@@ -30,12 +30,12 @@ export default {
       formData.append('body', post.attributes.body)
       formData.append('published', '1')
       try {
-        const response = await this.$axios.post('/api/posts', formData, {
+        await this.$axios.post('/api/posts', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         })
-        this.$store.dispatch('addPost', response.data.data)
+        this.$store.dispatch('updatePage', 1)
       } catch (error) {
         console.error(error)
       }

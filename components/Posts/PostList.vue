@@ -9,6 +9,13 @@
       :thumbnail="'http://127.0.0.1:8000' + post.attributes.thumb_image"
       @clicked="$emit('showPostDialog', post)"
     />
+    <div class="text-center">
+      <v-pagination
+        @input="updatePage"
+        :value="pagination.current_page"
+        :length="pagination.last_page"
+      ></v-pagination>
+    </div>
   </section>
 </template>
 
@@ -21,9 +28,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['posts']),
+    ...mapGetters(['posts', 'pagination']),
   },
-  methods: {},
+  methods: {
+    updatePage(value) {
+      this.$store.dispatch('updatePage', value)
+    },
+  },
   mounted() {},
 }
 </script>
