@@ -64,8 +64,8 @@ export default {
   },
   methods: {
     dialogHandler(post) {
-      this.dialog = true
       this.clickedPost = post
+      this.dialog = true
       this.$store.dispatch('addRecentPost', this.clickedPost.id)
     },
   },

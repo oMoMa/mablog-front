@@ -30,23 +30,26 @@ export const mutations = {
   },
   addRecentPost(state, { id, index }) {
     for (let i = 0; i < state.posts.length; i++) {
+      // Find the post
       if (state.posts[i].id == id) {
-        if (index == 0) {
-          if (state.recentPosts.length > 0) {
+        // No duplications found
+        if (index == 5) {
+          if (state.recentPosts.length < 5) {
+            state.recentPosts.splice(index, 1)
             state.recentPosts.unshift({
               title: state.posts[i].attributes.title,
               id: id,
               link: `/posts/${id}`,
             })
           } else {
-            state.recentPosts.push({
+            state.recentPosts.unshift({
               title: state.posts[i].attributes.title,
               id: id,
               link: `/posts/${id}`,
             })
+            state.recentPosts.pop()
           }
-        }
-        if (state.recentPosts.length > 0) {
+        } else {
           state.recentPosts.splice(index, 1)
           state.recentPosts.unshift({
             title: state.posts[i].attributes.title,
@@ -87,13 +90,9 @@ export const actions = {
         commit('addRecentPost', { id, index: i })
         return
       }
-      // no duplicate found and array is full 5
-      if (i == 4) {
-        commit('addRecentPost', { id, index: 4 })
-      }
     }
-    // No duplicate found and array size is less than 5
-    commit('addRecentPost', { id, index: 0 })
+    // No duplicate found
+    commit('addRecentPost', { id, index: 5 })
   },
 }
 
