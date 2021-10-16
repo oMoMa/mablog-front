@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -20,9 +21,7 @@ export default {
     }
   },
   computed: {
-    posts() {
-      return this.$store.getters.posts
-    },
+    ...mapGetters(['posts']),
   },
   methods: {},
   mounted() {},

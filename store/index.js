@@ -72,16 +72,16 @@ export const actions = {
       })
       .catch((e) => context.error(e))
   },
-  setPosts(commit, posts) {
+  setPosts({ commit }, posts) {
     commit('setPosts', posts)
   },
-  addPost(commit, post) {
+  addPost({ commit }, post) {
     commit('addPost', post)
   },
-  editPost(commit, post) {
+  editPost({ commit }, post) {
     commit('editPost', post)
   },
-  deletePost(commit, id) {
+  deletePost({ commit }, id) {
     commit('deletePost', id)
   },
   addRecentPost({ commit, state }, id) {
