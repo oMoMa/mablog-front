@@ -73,17 +73,11 @@ export const actions = {
   setPagination({ commit }, pagination) {
     commit('setPagination', pagination)
   },
-  updatePage({ commit }, nextPage) {
+  async updatePage({ commit }, nextPage) {
     const PER_PAGE = 5
-    axios
+    await axios
       .get(
-        `http://127.0.0.1:8000/api/posts?per_page=${PER_PAGE}&page=${nextPage}`,
-        {
-          headers: {
-            'User-Agent': 'PostmanRuntime/7.28.4',
-            Accept: 'application/json',
-          },
-        }
+        `http://127.0.0.1:8000/api/posts?per_page=${PER_PAGE}&page=${nextPage}`
       )
       .then((res) => {
         commit('setPosts', res.data.data)
