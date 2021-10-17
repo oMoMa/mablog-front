@@ -28,11 +28,21 @@
           <PostList @showPostDialog="dialogHandler" />
         </v-col>
       </v-row>
+      <v-row>
+        <v-col>
+          <v-pagination
+            @input="updatePage"
+            :value="pagination.current_page"
+            :length="pagination.last_page"
+          ></v-pagination>
+        </v-col>
+      </v-row>
     </v-container>
   </v-main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -56,6 +66,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['pagination']),
     thumbnail() {
       if (this.clickedPost.attributes.thumb_image) {
         return 'http://127.0.0.1:8000' + this.clickedPost.attributes.thumb_image
@@ -67,6 +78,9 @@ export default {
       this.clickedPost = post
       this.dialog = true
       this.$store.dispatch('addRecentPost', this.clickedPost.id)
+    },
+    updatePage(value) {
+      this.$store.dispatch('updatePage', value)
     },
   },
 }
