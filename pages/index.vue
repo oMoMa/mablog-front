@@ -94,6 +94,7 @@ export default {
       this.$store.dispatch('addRecentPost', this.clickedPost.id)
     },
     updatePage(value) {
+      window.scrollTo(0, 0)
       this.$store.dispatch('updatePage', value)
     },
   },
