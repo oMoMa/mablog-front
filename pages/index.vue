@@ -93,13 +93,13 @@ export default {
       this.dialog = true
       this.$store.dispatch('addRecentPost', this.clickedPost.id)
     },
-    updatePage(value) {
+    async updatePage(value) {
+      await this.$store.dispatch('updatePage', value)
       this.$vuetify.goTo(0, {
         duration: 300,
         offset: 0,
         easing: 'easeInOutCubic',
       })
-      this.$store.dispatch('updatePage', value)
     },
   },
 }
