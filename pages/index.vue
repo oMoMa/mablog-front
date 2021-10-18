@@ -94,7 +94,11 @@ export default {
       this.$store.dispatch('addRecentPost', this.clickedPost.id)
     },
     updatePage(value) {
-      window.scrollTo(0, 0)
+      this.$vuetify.goTo(0, {
+        duration: 300,
+        offset: 0,
+        easing: 'easeInOutCubic',
+      })
       this.$store.dispatch('updatePage', value)
     },
   },
