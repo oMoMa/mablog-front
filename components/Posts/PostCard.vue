@@ -11,7 +11,7 @@
         <v-btn
           text
           @click="toggleFavorite"
-          class="red--text ml-10"
+          class="red--text ml-2"
           v-if="$auth.loggedIn"
           ><v-icon class="mr-1">{{
             favorited ? 'mdi-heart' : 'mdi-heart-outline'
@@ -31,7 +31,7 @@
           elevation="false"
           text
           v-if="$auth.loggedIn && ownerID == $auth.user.id"
-          class="mr-10"
+          class="mr-2"
           @click="deleteDialog = true"
           ><v-icon class="mr-1">mdi-delete</v-icon>Delete</v-btn
         >
