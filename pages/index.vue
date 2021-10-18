@@ -12,7 +12,7 @@
     </v-dialog>
     <v-container>
       <v-row>
-        <v-col cols="3">
+        <v-col cols="3" v-if="!mobile">
           <Sidebar />
         </v-col>
 
@@ -71,6 +71,20 @@ export default {
       if (this.clickedPost.attributes.thumb_image) {
         return 'http://127.0.0.1:8000' + this.clickedPost.attributes.thumb_image
       } else return ''
+    },
+    mobile() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true
+        case 'sm':
+          return true
+        case 'md':
+          return false
+        case 'lg':
+          return false
+        case 'xl':
+          return false
+      }
     },
   },
   methods: {

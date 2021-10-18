@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container id="container">
+    <v-container :width="width" class="pa-0">
       <TheHeader />
       <Nuxt />
       <TheFooter />
@@ -8,8 +8,25 @@
   </v-app>
 </template>
 
-<style scoped>
-#container {
-  width: 80%;
+<script>
+export default {
+  computed: {
+    width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '100%'
+        case 'sm':
+          return '100%'
+        case 'md':
+          return '80%'
+        case 'lg':
+          return '80%'
+        case 'xl':
+          return '80%'
+      }
+    },
+  },
 }
-</style>
+</script>
+
+<style scoped></style>
